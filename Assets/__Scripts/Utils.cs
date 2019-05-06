@@ -277,7 +277,7 @@ public class Utils : MonoBehaviour {
 	}
 	
 	// This version allows an Array or a series of Vector3s as input
-	static public Vector3 Bezier( float u, params Vector3[] vecs ) {
+	static public Vector3 Bezier( float u, List<Quaternion> bezierRots, List<Vector3> bezierPts, params Vector3[] vecs ) {
 		return( Bezier( u, new List<Vector3>(vecs) ) );
 	}
 	
