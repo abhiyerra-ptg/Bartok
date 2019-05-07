@@ -13,7 +13,8 @@ public enum CBState
     target,
     discard,
     to,
-    idle
+    idle,
+    toDrawpile
 }
 public class CardBartok : Card {
     
@@ -23,16 +24,19 @@ public class CardBartok : Card {
     static public float CARD_HEIGHT = 3.5f;
     static public float CARD_WIDTH = 2f;
 
-    [Header("Set Dynamically: CardBartok")]
+    [Header("Set Dynamically")]
     public CBState state = CBState.drawpile;
     //Fields to store info the card will use to move and rotate
     public List<Vector3> bezierPts;
     public List<Quaternion> bezierRots;
     public float timeStart, timeDuration;
+    public int eventualSortOrder;
+    public string eventualSortLayer;
 
     //When the card is done moving, it will call reportFinishTo.SendMessage()
     public GameObject reportFinishTo = null;
-
+    [System.NonSerialized]
+    public Player callbackPlayer = null;
     //MoveTo tells the card to interpolate to a new position and rotation
     public void MoveTo(Vector3 ePos, Quaternion eRot)
     {
@@ -100,6 +104,11 @@ public class CardBartok : Card {
                         reportFinishTo.SendMessage("CBCallBack", this);
                         reportFinishTo = null;
                     }
+                    else if(callbackPlayer != null)
+                    {
+                        callbackPlayer.CBCallback(this);
+                        callbackPlayer = null;
+                    }
                     else
                     {
                         //If there is nothing to callback
@@ -111,13 +120,27 @@ public class CardBartok : Card {
                     //Normal interpolation behavior(0<=u<1)
                     Vector3 pos = Utils.Bezier(uC, bezierPts);
                     transform.localPosition = pos;
-                    //Quaternion rotQ = Utils.Bezier(uC,)
-                  
-                    Quaternion rot = Utils.Bezier(uC, bezierRots);
-                    
-                   // transform.rotation = rotQ;
+                    Quaternion rotQ = Utils.Bezier(uC, bezierRots);
+                    transform.rotation = rotQ;
+                    if (u > 0.5f)
+                    {
+                        SpriteRenderer sRend = spriteRenderers[0];
+                        if (sRend.sortingOrder != eventualSortOrder)
+                        {
+                            SetSortOrder(eventualSortOrder);
+                        }
+                        if (sRend.sortingLayerName != eventualSortLayer)
+                        {
+                            SetSortingLayerName(eventualSortLayer);
+                        }
+                    }
                 }
                 break;
         }
+    }
+    public override void OnMouseUpAsButton()
+    {
+        Bartok.S.CardClicked(this);
+        base.OnMouseUpAsButton();
     }
 }

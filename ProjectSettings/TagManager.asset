@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - PrefabCard
   layers:
   - Default
   - TransparentFX
@@ -41,21 +42,33 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Row0
+  - name: 1
     uniqueID: 650458207
     locked: 0
-  - name: Row1
+  - name: 2
     uniqueID: 2314928617
     locked: 0
-  - name: Row2
+  - name: 3
     uniqueID: 2800480855
     locked: 0
-  - name: Row3
+  - name: 4
     uniqueID: 96120065
     locked: 0
-  - name: Discard
+  - name: 5
     uniqueID: 1312410157
     locked: 0
-  - name: Draw
+  - name: 6
     uniqueID: 1344146437
+    locked: 0
+  - name: 7
+    uniqueID: 1108743919
+    locked: 0
+  - name: 8
+    uniqueID: 4033294881
+    locked: 0
+  - name: 9
+    uniqueID: 2399239491
+    locked: 0
+  - name: 10
+    uniqueID: 829416537
     locked: 0
